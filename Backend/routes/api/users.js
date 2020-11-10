@@ -61,7 +61,7 @@ router.post('/', [
             {
                 if (error) throw error;
                 console.log("User registered");
-                res.json(token);
+                res.json({ token });
             });
 
     } 
