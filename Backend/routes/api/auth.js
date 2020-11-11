@@ -56,7 +56,7 @@ router.post('/', [
             {
                 if (error) throw error;
                 console.log("Login successful");
-                res.json(token);
+                res.json({ token });
             });
 
     } 
