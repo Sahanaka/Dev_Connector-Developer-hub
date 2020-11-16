@@ -7,6 +7,7 @@ const axios = require("axios");
 const auth = require('../../middleware/auth');
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
+const Post = require('../../models/Post');
 
 const router = Router();
 
@@ -297,6 +298,9 @@ router.delete('/education/:edu_id', auth, async (req, res) =>
 {
      try 
      {
+        // Remove user posts
+        await Post.deleteMany({user: req.user.id });
+
         const profile = await Profile.findOne({ user: req.user.id });
 
         const removeIndex = profile.education.map(item => item.id).indexOf(req.params.edu_id);
