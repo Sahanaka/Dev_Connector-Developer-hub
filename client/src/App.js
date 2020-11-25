@@ -1,7 +1,6 @@
 import React, { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-
 import Navbar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
 import Login from './components/auth/Login';
@@ -16,12 +15,15 @@ import AddEducation from './components/profile-forms/AddEducation';
 import Profiles from './components/profiles/Profiles';
 import Profile from './components/Profile/Profile';
 import Posts from './components/posts/Posts';
+import Post from './components/post/Post';
 import './App.css';
 
 // Redux
 import { Provider } from 'react-redux';
 import store from './store';
+
 import { loadUser } from './actions/auth';
+import { LOGOUT } from './actions/types';
 import setAuthToken from './utils/setAuthToken'; 
 
 const App = () => {
@@ -29,6 +31,11 @@ const App = () => {
     if (localStorage.token)
       {setAuthToken(localStorage.token); console.log(localStorage.token)}
       store.dispatch(loadUser());
+
+    // log user out from all tabs if they log out in one tab
+    window.addEventListener('storage', () => {
+      if (!localStorage.token) store.dispatch({ type: LOGOUT });
+    });
   }, []);
   return (
     <Provider store={store}>
@@ -49,6 +56,7 @@ const App = () => {
               <PrivateRoute exact path='/add-experience' component={AddExperience} />
               <PrivateRoute exact path='/add-education' component={AddEducation} />
               <PrivateRoute exact path='/posts' component={Posts} />
+              <PrivateRoute exact path='/posts/:id' component={Post} />
             </Switch>
           </section>
         </Fragment>

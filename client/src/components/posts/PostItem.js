@@ -11,8 +11,8 @@ const PostItem = ({
     removeLike,
     deletePost,
     auth,
+    showActions,
     post: { _id, text, name, avatar, user, likes, comments, date },
-    showActions
 }) => (
         <div className="post bg-white p-1 my-1">
             <div>
@@ -25,7 +25,7 @@ const PostItem = ({
                 <p className="my-1">{text}</p>
                 <p className="post-date">Posted on {formatDate(date)}</p>
 
-                {showActions && (
+                { showActions && (
                     <Fragment>
                         <button
                             onClick={() => addLike(_id)}
@@ -62,6 +62,10 @@ const PostItem = ({
             </div>
         </div>
     );
+
+PostItem.defaultProps = {
+    showActions: true
+};
 
 PostItem.propTypes = {
     post: PropTypes.object.isRequired,
