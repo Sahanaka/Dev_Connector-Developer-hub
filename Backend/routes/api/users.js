@@ -4,6 +4,7 @@ const gravatar = require("gravatar");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("config");
+const normalize = require('normalize-url');
 
 const User = require('../../models/User');
 
@@ -27,11 +28,15 @@ router.post('/', [
         let user = await User.findOne({email});
         if (user) return res.status(400).json({ errors: [{ msg: "User already exists" }] });
 
-        const avatar = gravatar.url(email, {
-            s: '200',
-            r: 'pg',
-            d: 'mm'
-        });
+        const avatar = normalize(
+            gravatar.url(email, {
+              s: '200',
+              r: 'pg',
+              d: 'mm'
+            }),
+            { forceHttps: true }
+          );
+
         user = new User(
             {
                 name,
