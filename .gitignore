@@ -1,7 +1,9 @@
 Backend/node_modules/**/*
 Backend/config/default.json
+Backend/config/production.json
 Backend/package-lock.json
 
 client/node_modules/**/*
 client/package-lock.json
 client/debug.log
+client/build
